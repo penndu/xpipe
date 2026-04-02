@@ -5,6 +5,7 @@ import io.xpipe.app.core.AppSystemInfo;
 import io.xpipe.app.platform.OptionsBuilder;
 import io.xpipe.app.process.CommandBuilder;
 import io.xpipe.app.process.ShellControl;
+import io.xpipe.app.util.DocumentationLink;
 import io.xpipe.app.util.LicenseProvider;
 import io.xpipe.core.FilePath;
 import io.xpipe.core.KeyValue;
@@ -34,6 +35,7 @@ public class GpgAgentStrategy implements SshIdentityAgentStrategy {
                 new SimpleStringProperty(p.getValue() != null ? p.getValue().getPublicKey() : null);
         return new OptionsBuilder()
                 .nameAndDescription("publicKey")
+                .documentationLink(DocumentationLink.SSH_AGENT_PUBLIC_KEYS)
                 .addComp(new SshAgentKeyListComp(config.getFileSystem(), p, publicKey, false), publicKey)
                 .addComp(
                         new TextFieldComp(publicKey)

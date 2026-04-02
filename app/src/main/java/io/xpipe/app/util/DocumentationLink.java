@@ -95,6 +95,8 @@ public enum DocumentationLink {
     SSH_FEATURE_NOT_SUPPORTED("troubleshoot/ssh#requested-feature-not-supported"),
     SSH_JUMP_SERVERS("guide/ssh#gateways-and-jump-servers"),
     SSH_CUSTOM("guide/ssh-config#custom-ssh-connections"),
+    SSH_AGENT_PUBLIC_KEYS("guide/ssh#agent-public-keys"),
+    SSH_TOO_MANY_FAILURES("guide/ssh#too-many-authentication-failures"),
     SSH_CUSTOM_ORDER("guide/ssh-config#jump-hosts"),
     KEEPASSXC("guide/password-manager#keepassxc"),
     PASSWORD_MANAGER("guide/password-manager"),

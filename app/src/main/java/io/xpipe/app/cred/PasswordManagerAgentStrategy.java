@@ -11,6 +11,7 @@ import io.xpipe.app.process.CommandBuilder;
 import io.xpipe.app.process.ShellControl;
 import io.xpipe.app.pwman.PasswordManagerKeyConfiguration;
 import io.xpipe.app.storage.DataStorage;
+import io.xpipe.app.util.DocumentationLink;
 import io.xpipe.app.util.Validators;
 import io.xpipe.core.FilePath;
 import io.xpipe.core.KeyValue;
@@ -78,6 +79,7 @@ public class PasswordManagerAgentStrategy implements SshIdentityAgentStrategy {
                 .addComp(pwmanDisplay)
                 .hide(pwmanErrorProp.isNull())
                 .nameAndDescription(useKeyName() ? "agentKeyName" : "publicKeyRequired")
+                .documentationLink(DocumentationLink.SSH_AGENT_PUBLIC_KEYS)
                 .addComp(new SshAgentKeyListComp(config.getFileSystem(), p, identifier, useKeyName()), identifier)
                 .disable(pwmanErrorProp.isNotNull())
                 .nonNull()
