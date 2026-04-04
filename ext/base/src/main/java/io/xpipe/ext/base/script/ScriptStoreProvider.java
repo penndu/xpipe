@@ -57,11 +57,6 @@ public class ScriptStoreProvider implements DataStoreProvider {
     }
 
     @Override
-    public boolean canMoveCategories() {
-        return false;
-    }
-
-    @Override
     public boolean showProviderChoice() {
         return false;
     }

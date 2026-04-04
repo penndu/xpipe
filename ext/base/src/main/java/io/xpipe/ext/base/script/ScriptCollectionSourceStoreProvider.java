@@ -40,11 +40,6 @@ public class ScriptCollectionSourceStoreProvider implements DataStoreProvider {
     }
 
     @Override
-    public boolean canMoveCategories() {
-        return false;
-    }
-
-    @Override
     public boolean shouldShowScan() {
         return false;
     }
