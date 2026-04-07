@@ -58,7 +58,7 @@ public class SyncConfigHubLeafProvider implements HubLeafProvider<SyncConfigStor
 
     @Override
     public String getId() {
-        return "convertLocalIdentity";
+        return "syncConfig";
     }
 
     @Jacksonized

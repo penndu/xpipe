@@ -51,6 +51,7 @@ public enum DocumentationLink {
     VMWARE("guide/vmware"),
     VMWARE_NETWORKING("guide/vmware#networking"),
     AWS("guide/aws"),
+    AWS_SYNC("guide/aws#synchronization"),
     AWS_PROFILES("guide/aws#profiles"),
     AWS_EC2("guide/aws#ec2-instances"),
     AWS_EC2_SSM("guide/aws#ssm"),
