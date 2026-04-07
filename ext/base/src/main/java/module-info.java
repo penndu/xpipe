@@ -55,6 +55,7 @@ open module io.xpipe.ext.base {
             StoreStopActionProvider,
             StorePauseActionProvider,
             StoreRestartActionProvider,
+            SyncConfigHubLeafProvider,
             ServiceCopyAddressHubLeafProvider,
             RunScriptActionProviderMenu,
             ServiceRefreshHubProvider,
