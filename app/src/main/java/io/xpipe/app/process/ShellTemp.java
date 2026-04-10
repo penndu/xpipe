@@ -51,12 +51,16 @@ public class ShellTemp {
         }
 
         if (hasValidTemp) {
-            var sessionFile = systemTemp.join("xpipe-session-"
-                    + AppProperties.get().getSessionId().toString().substring(0, 8));
-            var newSession = !sc.view().fileExists(sessionFile);
-            if (newSession) {
-                clearTemp(sc);
-                sc.view().touch(sessionFile);
+            // When starting up multiple sessions to the same system, there might be race conditions here
+            // This is quite inefficient but there is no way to synchronize access on a
+            // specific system when multiple shell controls access it
+            synchronized (ShellTemp.class) {
+                var sessionFile = systemTemp.join("xpipe-session-" + AppProperties.get().getSessionId().toString().substring(0, 8));
+                var newSession = !sc.view().fileExists(sessionFile);
+                if (newSession) {
+                    clearTemp(sc);
+                    sc.view().touch(sessionFile);
+                }
             }
         }
     }
