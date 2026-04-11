@@ -414,12 +414,20 @@ public abstract class DataStorage {
     }
 
     public void finalizeWithDependencies(DataStoreEntry entry) {
-        for (DataStoreEntry other : getStoreEntries()) {
-            var cached = storeDependencyCache.computeIfAbsent(other, this::getDependencies);
-            if (cached.contains(entry.ref())) {
-                other.finalizeEntry();
+        var otherToFinalize = new ArrayList<DataStoreEntry>();
+        synchronized (storeDependencyCache) {
+            for (DataStoreEntry other : getStoreEntries()) {
+                var cached = storeDependencyCache.computeIfAbsent(other, this::getDependencies);
+                if (cached.contains(entry.ref())) {
+                    otherToFinalize.add(other);
+                }
             }
         }
+
+        for (DataStoreEntry other : otherToFinalize) {
+            other.finalizeEntry();
+        }
+
         entry.finalizeEntry();
     }
 
