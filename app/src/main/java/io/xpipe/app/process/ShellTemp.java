@@ -16,8 +16,7 @@ public class ShellTemp {
         // Even on macOS as root it is technically unique as only root will use /tmp
         if (proc.getOsType() != OsType.WINDOWS && proc.getOsType() != OsType.MACOS) {
             var temp = proc.getSystemTemporaryDirectory();
-            // Prevent interference with xpipe-* temp files
-            base = temp.join(AppNames.ofCurrent().getKebapName().replace("-", "_"));
+            base = temp.join(AppNames.ofCurrent().getKebapName());
             proc.view().mkdir(base);
             // We have to make sure that also other users can create files here
             // This command should work in all shells
@@ -31,8 +30,7 @@ public class ShellTemp {
                     .executeAndCheck();
         } else {
             var temp = proc.getSystemTemporaryDirectory();
-            // Prevent interference with xpipe-* temp files
-            base = temp.join(AppNames.ofCurrent().getKebapName().replace("-", "_"));
+            base = temp.join(AppNames.ofCurrent().getKebapName());
         }
         return sub != null ? base.join(sub) : base;
     }
