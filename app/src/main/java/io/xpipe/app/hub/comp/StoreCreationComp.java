@@ -82,7 +82,7 @@ public class StoreCreationComp extends ModalOverlayContentComp {
                     model.getFinished().addListener((observable, oldValue, newValue) -> {
                         if (newValue && d.equals(activeDialog.get())) {
                             ThreadHelper.runAsync(() -> {
-                                d.getOnFinish().run();
+                                d.getOnFinish().accept(model.getEntry().getValue());
                             });
                         }
                     });

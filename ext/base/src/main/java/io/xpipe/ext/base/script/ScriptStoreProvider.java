@@ -1,6 +1,8 @@
 package io.xpipe.ext.base.script;
 
 import io.xpipe.app.comp.BaseRegionBuilder;
+import io.xpipe.app.comp.RegionBuilder;
+import io.xpipe.app.comp.base.CheckBoxComp;
 import io.xpipe.app.comp.base.ListSelectorComp;
 import io.xpipe.app.core.AppI18n;
 import io.xpipe.app.ext.*;
@@ -19,6 +21,7 @@ import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 
+import javafx.scene.control.CheckBox;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
@@ -42,13 +45,15 @@ public class ScriptStoreProvider implements DataStoreProvider {
             enabled.set(s.isEnabled());
         });
 
-        var toggle = StoreToggleComp.<StatefulDataStore<EnabledStoreState>>enableToggle(
-                null, sec, enabled, (s, aBoolean) -> {
-                    var state = s.getState().toBuilder().enabled(aBoolean).build();
-                    s.setState(state);
-                });
+        var checkbox = new CheckBoxComp(enabled, null, null);
+        checkbox.describe(d -> d.nameKey("enabled"));
+        enabled.addListener((observable, oldValue, newValue) -> {
+            ScriptStore st = sec.getWrapper().getEntry().getStore().asNeeded();
+            var state = st.getState().toBuilder().enabled(newValue).build();
+            st.setState(state);
+        });
 
-        return StoreEntryComp.create(sec, toggle, preferLarge);
+        return StoreEntryComp.create(sec, checkbox, preferLarge);
     }
 
     @Override
@@ -135,7 +140,7 @@ public class ScriptStoreProvider implements DataStoreProvider {
         var selectorComp = new ListSelectorComp<>(
                 FXCollections.observableList(vals), name, ignored -> null, selectedExecTypes, v -> false, () -> false);
 
-        return new OptionsBuilder()
+        return new GuiDialog(new OptionsBuilder()
                 .nameAndDescription("scriptSourceType")
                 .sub(textSourceChoice.build(), textSource)
                 .nameAndDescription("executionType")
@@ -165,8 +170,12 @@ public class ScriptStoreProvider implements DataStoreProvider {
                                     .shellScript(selectedExecTypes.contains(3))
                                     .build();
                         },
-                        store)
-                .buildDialog();
+                        store), (finished) -> {
+            if (entry == null) {
+                finished.setStorePersistentState(EnabledStoreState.builder().enabled(true).build());
+            }
+
+        });
     }
 
     @Override
