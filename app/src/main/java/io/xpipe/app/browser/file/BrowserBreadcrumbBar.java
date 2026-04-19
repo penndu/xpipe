@@ -85,7 +85,6 @@ public class BrowserBreadcrumbBar extends SimpleRegionBuilder {
             Callback<Breadcrumbs.BreadCrumbItem<FilePath>, ? extends Node> dividerFactory) {
 
         var breadcrumbs = new Breadcrumbs<FilePath>();
-        breadcrumbs.setMinWidth(0);
         model.getCurrentPath().subscribe(val -> {
             PlatformThread.runLaterIfNeeded(() -> {
                 if (val == null) {

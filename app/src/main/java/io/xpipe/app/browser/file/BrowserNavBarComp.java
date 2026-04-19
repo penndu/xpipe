@@ -98,18 +98,21 @@ public class BrowserNavBarComp extends RegionStructureBuilder<HBox, BrowserNavBa
                         pathRegion.focusedProperty(),
                         PlatformThread.sync(model.getInOverview())));
         var stack = new StackPane(pathRegion, breadcrumbsRegion);
-        stack.setAlignment(Pos.CENTER_LEFT);
+        StackPane.setMargin(breadcrumbsRegion, new Insets(0, 10, 0, 10));
+        stack.setMinWidth(0);
         pathRegion.prefHeightProperty().bind(stack.heightProperty());
 
         stack.widthProperty().addListener((observable, oldValue, newValue) -> {
-            setMargin(stack, breadcrumbsRegion);
-        });
-
-        model.getCurrentPath().addListener((observable, oldValue, newValue) -> {
-            PlatformThread.runLaterIfNeeded(() -> {
-                setMargin(stack, breadcrumbsRegion);
+            Platform.runLater(() -> {
+                setAlignment(stack, breadcrumbsRegion);
             });
         });
+        model.getCurrentPath().addListener((observable, oldValue, newValue) -> {
+            PlatformThread.runLaterIfNeeded(() -> {
+                setAlignment(stack, breadcrumbsRegion);
+            });
+        });
+        setAlignment(stack, breadcrumbsRegion);
 
         // Prevent overflow
         var clip = new Rectangle();
@@ -135,12 +138,12 @@ public class BrowserNavBarComp extends RegionStructureBuilder<HBox, BrowserNavBa
         return new Structure(topBox, pathRegion, historyButton);
     }
 
-    private void setMargin(StackPane stackPane, Region region) {
+    private void setAlignment(StackPane stackPane, Region region) {
         var off = region.getWidth() - stackPane.getWidth();
-        if (off <= 0) {
-            StackPane.setMargin(region, new Insets(0, 0, 0, 0));
+        if (off <= -20) {
+            stackPane.setAlignment(Pos.CENTER_LEFT);
         } else {
-            StackPane.setMargin(region, new Insets(0, 20, 0, -off - 20));
+            stackPane.setAlignment(Pos.CENTER_RIGHT);
         }
     }
 
